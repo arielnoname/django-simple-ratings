@@ -1,0 +1,21 @@
+{% for vote in votes %}
+    <div class="vote">
+        <ul>
+            <li><strong>Rating Author: </strong>{{ vote.author }}</li>
+            <li><strong>Rating Vote: </strong>{{ vote }}</li>
+        </ul>
+    </div>
+{% empty %}
+    <p>No ratings yet.</p>
+{% endfor %}
+
+<p><strong><u>Total Score:</u> </strong>{{ score.total_score }}</p>
+
+<form action="{% url 'rating_create' %}" method="post">
+    {% csrf_token %}
+    {{ create_rating_form }}
+    <input type="hidden" name="return_url" value="{{ return_url }}">
+    <input type="hidden" name="content_type_id" value="{{ content_type_id }}">
+    <input type="hidden" name="object_id" value="{{ object_id }}">
+    <input type="submit" value="Submit" />
+</form>
