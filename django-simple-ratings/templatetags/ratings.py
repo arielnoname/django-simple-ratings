@@ -13,7 +13,10 @@ def show_ratings(context, instance):
     content_type = ContentType.objects.get_for_model(instance)
     object_id = instance.pk
     votes = Rating.objects.filter(object_id=object_id, content_type=content_type)
-    score = get_object_or_404(Score, object_id=object_id, content_type=content_type)
+    try:
+        Score.objects.get(object_id=object_id, content_type=content_type)
+    except Score.DoesNotExist:
+        score = 0
     return {
         'content_type_id': content_type.id,
         'object_id': object_id,
